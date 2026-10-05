@@ -1,0 +1,396 @@
+# Sway Configuration file
+# ~/.config/sway/.config/config
+
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+# --- Variables ---
+#
+# Mod1 is Alt button and Mod 4 is Super/Windows button
+set $alt  Mod1
+set $win  Mod4
+set $back button8
+#
+# Colors
+set $green          #18b218
+set $amber          #ffbf00
+set $crimson        #ff1744
+set $purple         #520380
+set $violet         #220135
+set $black_1        #121212
+set $black_2        #222222
+set $black_3        #232627
+set $black_4        #333333
+set $gray_1         #484e50
+set $gray_2         #5f676a
+set $gray_3         #888888
+set $gray_4         #7f8c8d
+set $blue_navi      #285577
+set $white          #ffffff
+#
+# Misc
+set $left	h
+set $right	l
+set $up	k
+set $down	j
+#set $wall_0	"/usr/share/backgrounds/ubuntu-wallpaper-d.png"
+set $wall_1     "/usr/share/backgrounds/rubenslp-Twin_brothers.png"
+set $wallpaper	$wall_1
+#
+# App
+set $menu            wofi --show drun
+set $terminal        kitty zsh
+set $file_manager    nautilus
+set $browser         firefox
+set $browser_brave   flatpak run com.brave.Browser --ozone-platform=x11 --disable-features=UseOzonePlatform
+set $network_manager nmtui
+#
+# System
+set $sys_poweroff    systemctl poweroff
+set $sys_reboot      systemctl reboot
+set $sway_logout     swaymsg exit # logout Sway session, kill all running apps
+set $sway_lock       swaylock -f --color 3daee9 # lock Swas session, keep running apps, need password to open
+set $sway_reload     swaymsg reload # reload this config file
+
+# Do not use UTF-8 formatted text, use ASCII or Latin1 format.
+# UTF-8 text will make swaynag "Toggle details" unable to click.
+set $cheatsheet_text cat ~/.config/sway/cheatsheet.txt
+
+#set $restart_clipman sh -c 'pkill -f "clipman store"; sleep 0.5; wl-paste -t text --watch clipman store --no-persist >/dev/null 2>&1 &'
+set $grep_clipman pgrep -f "clipman store"
+set $kill_clipman pkill -f "clipman store"
+set $start_clipman wl-paste -t text --watch clipman store --no-persist
+set $pick_clipman clipman pick -t wofi
+set $clear_clipman clipman clear --all
+
+
+# Open clipman history using Wofi
+bindsym $win+BackSpace       exec clipman pick -t wofi
+# Clear all clipman history
+bindsym $win+Shift+BackSpace exec clipman clear --all
+
+
+# --- Desktop View ---
+gaps inner    0
+gaps outer    0
+gaps outer    5
+gaps bottom   5
+
+
+# --- Window Decoration ---
+# Colors
+# window                    border     backgr.      text        indicator   child_border
+client.focused              $amber     $amber       $black_1    $amber      $amber
+client.focused_inactive     $black_4   $purple      $white      $gray_1     $gray_2
+client.unfocused            $purple    $violet      $white      $gray_3     $white
+client.urgent               $black_4   $crimson     $white      $crimson    $crimson
+# Borders
+hide_edge_borders smart
+# Using 'pixel' will remove title bars (and also if possible its buttons: minimize, maximize, close)
+# it will only leave border with some thickness that is defined by number after 'pixel'
+# This buttons removal wont work if those buttons are client side buttons or not managed by gtk/kde
+default_border pixel 2
+default_floating_border pixel 2
+
+
+# --- Sway Bar ---
+# position options: top, bottom
+bar {
+    position bottom
+    mode hide
+    hidden_state hide
+    modifier $win
+
+    swaybar_command waybar
+    font "FiraCode Nerd Font, JetBrainsMono Nerd Font, Hack Nerd Font, monospace" 10
+    colors {
+        statusline          $white
+        background          $black_1
+        focused_workspace   $black_1    $green  $black_3
+        active_workspace    $black_1    $white  $black_3
+        inactive_workspace  $black_1    $gray_3 $black_3
+    }
+}
+
+
+# --- Output Configuration ---
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+#
+# NVIDIA RTX 3060 display port to 'HP LV2011'
+output DP-1 resolution 1600x900 position 0,0 background $wallpaper fill
+# Thinkpad L15-G3 and T480 built in monitor
+output eDP-1 resolution 1920x1080 position 0,0 background $wallpaper fill
+# Thinkpad L15-G3 HDMI output
+output HDMI-A-1 resolution 1680x1050 background $wallpaper fill
+
+
+# --- Input Configuration ---
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Thinkpad keyboard (L15 Gen 3 and T470)
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_layout  us,ara
+    xkb_model   "intl",buckwelter
+}
+# Ganti layout keyboard dengan Win+Space
+bindsym $win+Space exec swaymsg input "*" xkb_switch_layout next
+
+# Thinkpad L15 Gen 3 trackpoint
+input "2:10:TPPS/2_Synaptics_TrackPoint" {
+    accel_profile "flat"        # values: adaptive, flat
+    pointer_accel "-0.255"      # range: -1.0 (slow) to 1.0 (fast)
+    drag enable
+}
+# Thinkpad T470 trackpoint
+input "2:10:TPPS/2_IBM_TrackPoint" {
+    accel_profile "flat"
+    pointer_accel "-0.255"
+    drag enable
+}
+# Thinkpad L15 Gen 3 touchpad
+input "1267:12809:ELAN067F:00_04F3:3209_Touchpad" {
+    dwt enabled                 # Disable while typing
+    tap enabled
+    natural_scroll   enabled
+    middle_emulation enabled
+}
+# Thinkpad T470 touchpad
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+    dwt enabled
+    tap enabled
+    natural_scroll   enabled
+    middle_emulation enabled
+}
+
+
+# --- Custom setting for specific app ---
+# We can know what is the running application identifier using command:
+# > swaymsg -t get_tree | grep app_id
+# > swaymsg -t get_tree | grep class
+# Use the result identifier value in [app_id=...] or [class=...]
+for_window [app_id="org.gnome.Nautilus"]        floating disable
+for_window [app_id="org.gnome.TextEditor"]      floating disable
+for_window [app_id="org.gnome.Evince"]          floating disable
+for_window [app_id="org.gnome.Cheese"]          floating disable
+for_window [app_id="org.gnome.Calculator"]      floating enable, sticky enable, resize set width 400 height 470, move position 70 ppt 30 ppt
+for_window [app_id="blueman-manager"]           floating enable, sticky enable, resize set width 400 height 470, move position 70 ppt 0 ppt
+for_window [app_id="nm-connection-editor"]      floating enable, sticky enable, resize set width 400 height 470, move position 70 ppt 0 ppt
+for_window [app_id="gnome-terminal-server"]     floating enable, sticky enable
+for_window [title="nmtui"]                      floating enable, sticky enable, move position center
+for_window [class="zoom"]                       floating enable, move position center
+
+
+# This will open only 1 instance of app or re-focus on it if already exist.
+bindsym $win+F9             exec swaymsg '[app_id="blueman-manager"] focus'      || blueman-manager
+bindsym $win+F10            exec swaymsg '[title="nmtui"] focus'                 || kitty -e $network_manager &
+bindsym $win+F11            exec swaymsg '[app_id="nm-connection-editor"] focus' || nm-connection-editor
+
+
+# --- Dedicated Button ---
+# We can get the button id by running 'wev' in terminal then press the button while checking terminal output.
+# Install 'wev' using command "sudo apt install wev".
+# The script below works on: Thinkpad L15 Gen 3.
+#bindsym XF86Display        ...
+#bindsym XF86WLAN           RESERVED
+#bindsym XF86Tools          ...
+#bindsym XF86Messenger      ...
+#bindsym XF86Bluetooth      ...
+#bindsym XF86Keyboard       ...
+#bindsym XF86Go             ...
+#bindsym Cancel             ...
+#bindsym XF86Favorites      ...
+#
+# Screenshot fullscreen to file
+bindsym Print               exec grim -g "$(slurp)" - | wl-copy
+# Screenshot fullscreen to clipboard
+bindsym Control+Print       exec grim - | wl-copy
+# Screenshot region to file
+bindsym Shift+Print         exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+# Screenshot region to clipboard
+bindsym Control+Shift+Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
+#
+# Keyboard Backlight
+bindsym XF86KbdBrightnessUp     exec brightnessctl -d tpacpi::kbd_backlight set +1
+bindsym XF86KbdBrightnessDown   exec brightnessctl -d tpacpi::kbd_backlight set 1-
+#
+# Increase Volume.
+bindsym XF86AudioRaiseVolume    exec sh -c "\
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; \
+        VOL=\$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -o '[0-9.]*'); \
+        VOL=\${VOL#0.}; \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:volume -h int:value:\$VOL \
+        '/▲\\ Volume: '\$VOL'%  🔊.:::..:::..:::.'; "
+# Decrease Volume.
+bindsym XF86AudioLowerVolume    exec sh -c "\
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; \
+        VOL=\$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -o '[0-9.]*'); \
+        VOL=\${VOL#0.}; \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:volume -h int:value:\$VOL \
+        '\\▼/ Volume: '\$VOL'%  🔉..:....:....:..'; "
+# Mute Speaker
+bindsym XF86AudioMute           exec sh -c "wpctl set-mute @DEFAULT_AUDIO_SINK@   toggle; \
+        wpctl get-volume @DEFAULT_AUDIO_SINK@     | grep -q MUTED && \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:volume '🔇 Speaker Muted  ..-....-....-..' || \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:volume '🔈 Speaker Active ::.::::.::::.::'; "
+# Mute Microphone
+bindsym XF86AudioMicMute        exec sh -c "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle; \
+        wpctl get-volume @DEFAULT_AUDIO_SOURCE@   | grep -q MUTED && \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:mic    '🎤︎❌ Mic Muted  ...-....-....-...' || \
+        notify-send -a 'wpctl-volume' -h string:x-dunst-stack-tag:mic    '🎤︎✅ Mic Active :::.::::.::::.:::'; "
+#
+# Screen Brightness
+# 1. Install the dependency: sudo apt install brightnessctl
+# 2. Add permission: sudo usermod -aG video $USER
+# 3. Logout then Login
+# Brightness Up
+bindsym XF86MonBrightnessUp     exec sh -c "brightnessctl set +5%"
+# Brightness Down
+bindsym XF86MonBrightnessDown   exec sh -c "brightnessctl set 5%-"
+#
+# This will open only 1 instance of calculator.
+bindsym XF86Calculator      exec swaymsg '[app_id="org.gnome.Calculator"] focus' || gnome-calculator
+#
+# Untested yet because my Thinkpad doesnt have these kind of media player buttons
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+
+# Reload this Sway configuration file
+bindsym $win+Shift+c reload
+
+
+# --- Basic Keybindings for Sway, Swaynag, and Waybar ---
+#set $app_shortcut printf "Ctrl+Alt+Esc to close" \
+#| swaynag \
+#-t info \
+#-m " Bookmarked App Menu | Ctrl+Alt+Esc to close" \
+#-b "󱡫 Helvum" "helvum" \
+#-b " Midnight" "kitty mc" \
+#-b "🍊 Orange" "~/venv-orange/bin/orange-canvas" \
+#-b "󰊢 Gitg" "flatpak run org.gnome.gitg" \
+#-b " draw.io" "flatpak run com.jgraph.drawio.desktop" \
+#-b " Mendeley" "~/Applications/mendeley-reference-manager-*.AppImage" \
+#-b "󰰶 Zotero" "flatpak run org.zotero.Zotero" \
+#-b " Emacs" "emacs" \
+#-b " Neovim" "kitty nvim" \
+#-b " Firefox" "flatpak run org.mozilla.firefox" \
+set $app_shortcut sh -c 'pgrep swaynag >/dev/null && pkill swaynag || swaynag -t info -m " Bookmarked App Menu | Ctrl+Alt+Esc to close" -B "󱡫 Helvum" "helvum" -B " Midnight" "kitty mc" -B "🍊 Orange" "$HOME/venv-orange/bin/orange-canvas" -B "󰊢 Gitg" "flatpak run org.gnome.gitg" -B " draw.io" "flatpak run com.jgraph.drawio.desktop" -B "󰰶 Zotero" "flatpak run org.zotero.Zotero" -B " Emacs" "emacs" -B " Neovim" "kitty nvim" -B " Firefox" "flatpak run org.mozilla.firefox"'
+
+#set $sys_shortcut $cheatsheet_text \
+#| swaynag -l \
+#-t warning \
+#-m " System Shortcut Menu | Ctrl+Alt+Esc to close" \
+#-b " Applet" "blueman-applet" \
+#-b " Manager" "blueman-manager" \
+#-b "󱚾 Applet" "nm-applet" \
+#-b "󱚾 Manager" "kitty -e nmtui" \
+#-b "<>" "" \
+#-b "󱘣 Clipman Pick" "$pick_clipman" \
+#-b "󱘝 Clipman Clear" "$clear_clipman" \
+#-b "󰱚 Start Clipman" "kitty -e $start_clipman" \
+#-b "󱘡 Kill Clipman" "kitty -e $kill_clipman" \
+#-b "󰡞 Grep Clipman" "kitty --hold -e $grep_clipman" \
+#-b "<>" ""
+set $sys_shortcut sh -c 'if pgrep -f "swaynag.*System Shortcut Menu" >/dev/null; then pkill -f "swaynag.*System Shortcut Menu"; else echo -e "$cheatsheet_text" | swaynag -l -t warning -m " System Shortcut Menu | Ctrl+Alt+Esc to close" -b " Applet" "blueman-applet" -b " Manager" "blueman-manager" -b "󱚾 Applet" "nm-applet" -b "󱚾 Manager" "kitty -e nmtui" -b "<>" "" -b "󱘣 Clipman Pick" "$pick_clipman" -b "󱘝 Clipman Clear" "$clear_clipman" -b "󰱚 Start Clipman" "kitty -e $start_clipman" -b "󱘡 Kill Clipman" "kitty -e $kill_clipman" -b "󰡞 Grep Clipman" "kitty --hold -e $grep_clipman" -b "<>" ""; fi'
+
+#set $sys_control printf "Make sure to save your work before turning off the computer! \n" \
+#| swaynag --detailed-message \
+#--type error \
+#--message "⏼ System Control Menu | Ctrl+Alt+Esc to close" \
+#--button " Shutdown" "$sys_poweroff" \
+#--button "󰜉 Reboot" "$sys_reboot" \
+#--button "󰍃 Logout" "swaymsg exit" \
+#--button " Lock" "$sway_lock" \
+#--button "󰑓 Reload Config" "$sway_reload"
+set $sys_control sh -c 'if pgrep -f "swaynag.*System Control Menu" >/dev/null; then pkill -f "swaynag.*System Control Menu"; else printf "Make sure to save your work before turning off the computer! \n" | swaynag --detailed-message --type error --message "⏼ System Control Menu | Ctrl+Alt+Esc to close" --button " Shutdown" "$sys_poweroff" --button "󰜉 Reboot" "$sys_reboot" --button "󰍃 Logout" "swaymsg exit" --button " Lock" "$sway_lock" --button "󰑓 Reload Config" "$sway_reload"; fi'
+
+# Swaynag bar - bookmarked app
+bindsym Control+slash exec '$app_shortcut'
+# Swaynag bar - some system setting shortcut: network, etc.
+bindsym Control+Shift+slash exec '$sys_shortcut'
+# Swaynag bar - system control menu: shutdown, reboot, etc.
+bindsym Control+$alt+Delete exec '$sys_control'
+# Close swaynag notification bar
+bindsym Control+$alt+Escape exec sh -c 'pgrep swaynag >/dev/null && pkill swaynag'
+# Hide/unhide Waybar
+bindsym $win+Shift+b exec pkill -SIGUSR1 waybar # Hide/unhide
+
+
+# --- Next Direction Split of New Spawn Window ---
+#
+# The next split will be horizontal
+#bindsym $win+b splith
+bindsym $win+b exec sh -c 'swaymsg split h'
+#
+# The next split will be vertical
+#bindsym $win+v splitv
+bindsym $win+v exec sh -c 'swaymsg split v'
+
+
+# --- Window ---
+# Fullscreen for current focused window
+bindsym F11      fullscreen
+bindsym $win+f   fullscreen
+# Switch focused window
+bindsym $win+$left  focus left
+bindsym $win+$right focus right
+bindsym $win+$down  focus down
+bindsym $win+$up    focus up
+# Move focused window
+bindsym $win+Shift+$left    move left
+bindsym $win+Shift+$right   move right
+bindsym $win+Shift+$down    move down
+bindsym $win+Shift+$up      move up
+# Kill focused window
+bindsym $win+Shift+q    kill
+bindsym $alt+F4         kill
+# Switch window layout style
+bindsym $win+s layout stacking
+bindsym $win+w layout tabbed
+bindsym $win+e layout toggle split
+# Toggle floating for focused window
+bindsym $win+Shift+space    floating toggle
+
+
+# --- Scratchpad ---
+# Hide/move active app to scratchpad
+bindsym $win+Shift+m move scratchpad
+# Cycle an app from scratchpad
+bindsym $win+m scratchpad show
+
+
+# --- Workspace ---
+# Switch workspace
+bindsym $win+1 workspace 1
+bindsym $win+2 workspace 2
+bindsym $win+3 workspace 3
+bindsym $win+4 workspace 4
+# Move focused window to workspace
+bindsym $win+Shift+1 move container to workspace 1
+bindsym $win+Shift+2 move container to workspace 2
+bindsym $win+Shift+3 move container to workspace 3
+bindsym $win+Shift+4 move container to workspace 4
+# Move focused workspace to another display
+bindsym $win+Ctrl+Shift+1 move workspace to output eDP-1
+bindsym $win+Ctrl+Shift+2 move workspace to output HDMI-A-1
+
+
+# Open application
+bindsym $win+d               exec $menu             # run menu
+bindsym $win+F1              exec $file_manager     # GUI file manager
+bindsym $win+F2              exec $browser
+bindsym $win+F3              exec bash -i -c '$browser_brave' # run app using shell
+bindsym $win+Return          exec $terminal
+bindsym Control+Shift+Escape exec swaymsg '[app_id="gnome-terminal-server"] focus' || gnome-terminal -e htop # run task manager
+
+
+# --- Default Sway Configuration ---
+include /etc/sway/config.d/*
+
+# --- Startup App ---
+# Mako Notifier
+exec mako
+# Autostart system tray applets
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec --no-startup-id nm-applet &
+exec --no-startup-id blueman-applet &

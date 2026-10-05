@@ -1,0 +1,202 @@
+// Waybar Configuration for Hyprland
+// Reload after editing this file using:
+// > pkill waybar && waybar &
+
+{
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 30, // Waybar height (to be removed for auto height)
+    "spacing": 1, // Gaps between modules
+
+    // Choose the order of the modules
+    "modules-left": [
+        "idle_inhibitor", "cpu", "memory", "temperature", "battery",
+        "sway/workspaces", "sway/mode", "sway/scratchpad",
+        "hyprland/workspaces", "hyprland/submap",
+        "custom/media",
+        "custom/yazi", "custom/nemo",
+        "custom/pdf",
+        "custom/zotero"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": [
+        "hyprland/language", "keyboard-state",
+        "tray",
+        "network", "backlight", "pulseaudio", "clock"],
+
+    // Modules configuration
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "format": "{name}: {icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "hyprland/submap": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "mpd": {
+        "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
+        "unknown-tag": "N/A",
+        "interval": 2,
+        "consume-icons": {
+            "on": " "
+        },
+        "random-icons": {
+            "off": "<span color=\"#f53c3c\"></span> ",
+            "on": " "
+        },
+        "repeat-icons": {
+            "on": " "
+        },
+        "single-icons": {
+            "on": "1 "
+        },
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "👀",
+            "deactivated": "☕"
+        },
+        "tooltip": true,
+        "tooltip-format-activated": " Stays awake 🖱️ Click me",
+        "tooltip-format-deactivated": " idle ~> dim, lock, suspend 🖱️ Click me"
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "timezone": "Asia/Jakarta",
+        "format": "{:%I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%d %B %Y}"
+    },
+    "cpu": {
+        "format": "🧠 {usage}%",
+        "tooltip": true
+    },
+    "memory": {
+        "format": "🐏 {}%",
+        "tooltip": true,
+        "tooltip-format": "{used} used / {total} total RAM"
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format-critical": "{icon} {temperatureC}󰔄",
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", "", "󱗗"],
+        "tooltip-format": "HW temperature "
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "☀️ {percent}%",
+        "format-icons": ["󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩕", "󱩕", "󱩖"],
+        "tooltip-format": "↕️ Scroll to control backlight brightness {icon}"
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "󱧥 {time}",
+        "format-full": " 󰂅 ",
+        // "format-good": "", // An empty format will hide the module
+        "format-icons": ["󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+        "tooltip-format": "󱧥 {time}\n🖱️Clickable when battery is in use"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "󰤥 {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname} via gateway {gwaddr}\n🖱️ Click to see other detail",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "󰌙 Disconnected",
+        "format-alt": "󰩠 {ipaddr}/{cidr}"
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "󰗾 {volume}% {icon} {format_source}",
+        "format-bluetooth-muted": "󰗿 {icon} {format_source}",
+        "format-muted": "󰝟 {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰋎",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "tooltip-format": "{desc}\n↕️ Scroll to change volume level 🎚",
+        "on-click": "pavucontrol"
+    },
+
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "󰥠"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    },
+    "custom/nemo": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "echo '{\"text\": \"🐠\", \"tooltip\": \"Nemo File Manager\"}'",
+        "on-click": "nemo"
+    },
+    "custom/pdf": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "echo '{\"text\": \"📑\", \"tooltip\": \"Evince Document Viewer\"}'",
+        "on-click": "evince"
+    },
+    "custom/yazi": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "echo '{\"text\": \"󰯌\", \"tooltip\": \"Yazi File Manager\"}'",
+        "on-click": "kitty yazi"
+    },
+    "custom/zotero": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "echo '{\"text\": \"Z\", \"tooltip\": \"Zotero Reference Manager\"}'",
+        "on-click": "$HOME/Applications/Zotero-10.0.2_linux-x86_64/zotero"
+    },
+}

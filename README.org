@@ -1,0 +1,49 @@
+* Configuration Backup
+This is the guide to reuse configuration of various app.
+The dependency is a GNU Stow to create symlink. Take a note that Stow will symlink following the directory structure.
+
+** How to use GNU Stow
+
+*** Configuration directory structure
+The structure of symlink will follow how the configuration inside "dotfiles" is arranged.
+
+~/dotfiles \\
+├── doom \\
+│ . . │ \\
+│ . . ├── .config/doom/config.el \\
+│ . . │ \\
+│ . . └── .config/doom/init.el \\
+│ \\
+├── ghostty \\
+│ . . │ \\
+│ . . └── .config/ghostty/config \\
+│ \\
+└── ... \\
+
+*** Applying configuration
+#+begin_src shell
+cd ~/dotfiles
+stow -t ~ doom
+stow -t ~ zsh
+stow -t ~ wezterm
+stow -t ~ ghostty
+...
+#+end_src
+
+*** Problem 1: Doom Emacs Revert to Vanilla Emacs
+When executing command "emacs -nw" or "emacs", sometimes system is creating directory "~/.emacs.d/*" unintentionally by user.
+The "~/.emacs.d" directory was used by older version of Emacs to save its configuration, but the latest vanilla Emacs and Doom Emacs is using XDG environment variable that put the configuration of application inside "~/.config/emacs" directory.
+
+*Solution* : run command to create symbolic link with command below!
+#+begin_src shell
+ln -s ~/.config/emacs ~/.emacs.d
+#+end_src
+The system won't replace existing "~/.emacs.d" symlink, but will use the symlink which will trace back to "~/.config/emacs" and use the configuration files inside.
+
+*** Problem 2: Doom Emacs custom configuration has no effect
+The problem of automatically directory creation of "~/.emacs.d/*" also happen for "~/.doom.d/*". This will hinder Doom manual costumization.
+
+*Solution* : run command to create symbolic link with command below!
+#+begin_src shell
+ln -s ~/.config/doom ~/.doom.d
+#+end_src

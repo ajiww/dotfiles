@@ -1,0 +1,61 @@
+/* Overall window size */
+#window {
+    width: 800px;         /* Increase width (default is often 600px or %-based) */
+    height: 600px;        /* Increase height */
+    font-size: 18px;      /* Scale up global font size */
+    border-radius: 40px;
+
+    /* Semi-transparent dark slate base */
+    background-color: rgba(20, 20, 30, 0.75);
+
+    /* Subtle light border to mimic glass edge reflection */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Inner layout container */
+#outer-box {
+    margin: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+/* Search bar / Input box */
+#input {
+    font-size: 32px;
+    font-weight: bold;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    border-radius: 38px;
+
+    /* Slightly lighter frost for the search bar */
+    background-color: transparent;
+    color: #ffffff;
+    border: transparent;
+}
+#input:focus {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* List items */
+#entry {
+    padding: 10px 15px;  /* Vertical and horizontal item padding */
+    margin: 4px 0;
+
+    border-radius: 38px;
+    background-color: transparent;
+    color: #e0e0e0;
+}
+#entry:selected {
+    /* Frost highlight on selection */
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+}
+
+/* Enlarging icons if you use them */
+#img {
+    margin-right: 12px;
+    width: 28px;
+    height: 28px;
+}

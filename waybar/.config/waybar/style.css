@@ -1,0 +1,354 @@
+/* =============================================================
+   SEMANTIC COLOR PALETTE (GTK Compatible)
+   ============================================================= */
+@define-color bg_bar rgba(43, 48, 59, 0.85);
+@define-color bg_dark #000000;
+@define-color bg_surface rgba(0, 0, 0, 0.4);
+@define-color text_main #ffffff;
+@define-color text_inverse #000000;
+
+/* Primary & Accent Colors */
+@define-color primary steelblue;
+@define-color primary_light #89b4fa; /*lightsteelblue;*/
+
+/* Semantic State Colors */
+@define-color status_success #1e7e34;      /* Charging, Active */
+@define-color status_success_dark #1b5e20; /* Media Playing */
+@define-color status_warning #f1c40f;      /* Temperature Critical */
+@define-color status_danger #d32f2f;       /* Disconnected, Urgent, Muted */
+@define-color status_danger_dark #8b0000;  /* Urgent Blink Target */
+@define-color status_info #e65100;         /* Custom VLC */
+
+/* Muted & Neutral States */
+@define-color state_muted #4a6572;         /* Audio Muted, MPD Stopped */
+@define-color state_paused #00695c;        /* MPD Paused */
+@define-color state_mode #455a64;          /* Waybar Mode */
+@define-color bg_wireplumber #f5f5f5;
+
+/* =============================================================
+   GLOBAL & BASE WINDOW
+   ============================================================= */
+* {
+    font-family: "FiraCode Nerd Font", "JetBrainsMono Nerd Font", "Hack Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+window#waybar {
+    background-color: @bg_bar;
+    border-bottom: 1px dashed rgba(100, 115, 125, 1.0);
+    color: @text_main;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden { opacity: 0.2; }
+window#waybar.empty { background-color: transparent; }
+window#waybar.solo { background-color: rgba(40, 50, 60, 0.90); }
+window#waybar.termite { background-color: #3F3F3F; }
+
+window#waybar.chromium {
+    background-color: @bg_dark;
+    border: none;
+}
+
+/* =============================================================
+   BUTTONS & BASE MODULES
+   ============================================================= */
+button {
+    box-shadow: inset 0 -3px transparent;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px @text_main;
+}
+
+#cpu, #memory, #temperature {
+    min-width: 50px;
+    padding: 0 5px;
+    border: 1px solid @primary;
+}
+
+#clock, #battery, #disk,
+#backlight, #network, #pulseaudio, #wireplumber,
+#custom-media, #tray, #mode,
+#scratchpad, #mpd, #language, #keyboard-state,
+#custom-launcher {
+    background-color: transparent;
+    padding: 0 4px;
+    margin: 0 4px;
+    border-radius: 4px;
+    color: @text_main;
+}
+
+#window {
+    color: @text_main;
+    background: linear-gradient(45deg, #5B0092, #9B1010);
+    box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.6),
+                inset 0 0 10px 2px rgba(70, 130, 180, 0.4);
+    border-radius: 16px;
+    padding: 0 16px;
+    margin: 2px 2px;
+}
+/* Hide the window module completely when the workspace has no windows */
+window#waybar.empty #window {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    font-size: 0px; /* Optional: ensures no lingering spacing takes up room */
+}
+
+.modules-left > widget:first-child > #workspaces { margin-left: 0; }
+.modules-right > widget:last-child > #workspaces { margin-right: 0; }
+
+/* Grouped Identical Styles */
+#clock,
+#battery,
+#network {
+    background-color: @status_paused;
+    border: 1.5px solid @primary_light;
+    box-shadow: inset 0 -3px @primary_light;
+}
+
+#backlight,
+#pulseaudio {
+    min-width: 100px;
+    border: 1.5px solid @primary_light;
+    box-shadow: inset 0 -3px @primary_light;
+}
+
+/* =============================================================
+   WORKSPACES
+   ============================================================= */
+#workspaces {
+    margin: 0 4px;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 0 1px;
+    background-color: transparent;
+    color: @text_main;
+    border: 1.5px solid @primary_light;
+    box-shadow: inset 0 -3px @primary_light;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+#workspaces button.focused, /* Sway specific */
+#workspaces button.active /* Hyprland specific */ {
+    background-color: @primary_light;
+    color: @text_main;
+    border: 1.5px solid @text_main;
+    box-shadow: inset 0 -3px @text_main;
+}
+
+#workspaces button.urgent {
+    background-color: @status_danger;
+    color: @text_main;
+    border: 2px solid @status_warning;
+    font-weight: bold;
+    box-shadow: inset 0 -3px @status_warning;
+    animation: urgent-blink 1s infinite alternate;
+}
+
+@keyframes urgent-blink {
+    from {
+        background-color: @status_danger;
+        color: @text_main;
+    }
+    to {
+        background-color: @status_danger_dark;
+        color: @status_warning;
+    }
+}
+
+/* =============================================================
+   MODULE STATES
+   ============================================================= */
+/* Battery */
+#battery.charging, #battery.plugged {
+    background-color: @status_success;
+    color: @text_main;
+    border: none;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @status_danger;
+    color: @text_main;
+    animation: blink 0.5s linear infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: @text_main;
+        color: @text_inverse;
+    }
+}
+
+/* Network */
+#network.disconnected {
+    background-color: @status_danger;
+    color: @text_main;
+}
+
+/* Audio */
+#pulseaudio.muted {
+    background-color: @state_muted;
+    color: @text_main;
+}
+
+#wireplumber {
+    background-color: @bg_wireplumber;
+    color: @text_inverse;
+}
+
+#wireplumber.muted {
+    background-color: @status_danger;
+    color: @text_main;
+}
+
+/* Media Players */
+#custom-media,
+#mpd {
+    background-color: @status_success_dark;
+    color: @text_main;
+}
+
+#custom-media {
+    min-width: 100px;
+}
+
+#custom-media.custom-vlc {
+    background-color: @status_info;
+    color: @text_main;
+}
+
+#mpd.disconnected { background-color: @status_danger; }
+#mpd.stopped { background-color: @state_muted; }
+#mpd.paused { background-color: @state_paused; }
+
+/* System Status */
+#mode {
+    background-color: @state_mode;
+    color: @text_main;
+    border-bottom: 3px solid @text_main;
+}
+
+#temperature.critical {
+    background-color: @status_warning;
+    color: @text_inverse;
+    font-weight: bold;
+}
+
+#disk {
+    background-color: #795548;
+    color: @text_main;
+}
+
+label:focus {
+    background-color: @bg_dark;
+    color: @text_main;
+}
+
+#tray {
+    -gtk-icon-effect: highlight;
+    background-color: #aaaaaa;
+    box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.6),
+                inset 0 0 10px 2px rgba(70, 130, 180, 0.4);
+    border-radius: 16px;
+    padding: 0 8px;
+    margin: 2px 2px;
+}
+
+#tray > widget,
+#tray > * {
+    -gtk-icon-effect: highlight;
+    color: @text_main;
+}
+
+#tray image {
+    -gtk-icon-effect: highlight;
+    padding: 0 2px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+    opacity: 0.9;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @status_danger;
+}
+
+#language {
+    padding: 0 5px;
+    border: 1px solid @primary;
+    min-width: 50px;
+    color: @text_main;
+    border: 1.5px solid @primary_light;
+    box-shadow: inset 0 -3px @primary_light;
+}
+
+#keyboard-state {
+    background: transparent;
+    color: @text_main;
+    padding: 0;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+    color: @text_main;
+}
+
+#keyboard-state > label.locked {
+    background: @bg_surface;
+}
+
+#scratchpad {
+    background: @bg_surface;
+    color: @text_main;
+}
+
+#scratchpad.empty {
+    background-color: transparent;
+}
+
+#custom-pdf,
+#custom-fileman, #custom-mc, #custom-yazi, #custom-zotero,
+#custom-gitclient, #custom-emacs,
+#custom-blueman, #custom-networkmanager,
+#custom-orange
+{
+    min-width: 32px;
+    background-color: @bg_dark;
+    color: @text_main;
+    border-radius: 10px;
+    border: 1.5px solid @primary_light;
+    box-shadow: inset 0 -3px @primary_light;
+}
+
+#custom-launcher {
+    background-color: transparent;
+    color: @text_main;
+    padding: 0 12px;
+    margin-right: 5px;
+    border-radius: 6px;
+    border: 1.5px solid @primary_light;
+    font-weight: bold;
+}
+#custom-launcher:hover {
+    background-color: @status_warning;
+    color: @text_inverse;
+    border: 1.5px solid @status_warning;
+}

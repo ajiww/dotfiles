@@ -1,0 +1,40 @@
+# Global Section
+font=Ubuntu Mono 11
+background-color=#ffffff
+text-color=#222222
+border-color=#2980b9
+progress-color=#2980b9
+
+border-size=1
+border-radius=8
+padding=10
+default-timeout=15000
+
+# --- Volume Notification ---
+[app-name="wpctl-volume"]
+border-color=#f1c40f
+progress-color=#f1c40f
+default-timeout=4000
+
+# --- Brightness Notification ---
+[app-name="brightnessctl"]
+background-color=#f8e71c
+border-color=#f39c12
+text-color=#222222
+default-timeout=1500
+
+# --- Low Battery Warning ---
+[app-name="battery-monitor"]
+background-color=#ff9f43
+border-color=#ff5555
+text-color=#ffffff
+# Persistent: keep it on screen until plugged in
+default-timeout=0
+
+[urgency=high]
+border-color=#ff5555
+
+[urgency=critical]
+border-color=#222222
+background-color=#ff5555
+text-color=#ffffff

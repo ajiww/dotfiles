@@ -1,0 +1,81 @@
+% Created 2026-03-11 Wed 12:26
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Aji Widhi}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={Aji Widhi},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={},
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Configuration Backup}
+\label{sec:orgd3f7a21}
+This is the guide to reuse configuration of various app.
+The dependency is a GNU Stow to create symlink. Take a note that Stow will symlink following the directory structure.
+\subsection{How to use GNU Stow}
+\label{sec:orgfa3abf5}
+
+\subsubsection{Configuration directory structure}
+\label{sec:org08fae7a}
+The structure of symlink will follow how the configuration inside ``dotfiles'' is arranged.
+
+\textasciitilde{}/dotfiles \\
+├── doom \\
+│ . . │ \\
+│ . . ├── .config/doom/config.el \\
+│ . . │ \\
+│ . . └── .config/doom/init.el \\
+│ \\
+├── ghostty \\
+│ . . │ \\
+│ . . └── .config/ghostty/config \\
+│ \\
+└── \ldots{} \\
+\subsubsection{Applying configuration}
+\label{sec:orgb8c0349}
+\begin{verbatim}
+cd ~/dotfiles
+stow -t ~ doom
+stow -t ~ zsh
+stow -t ~ wezterm
+stow -t ~ ghostty
+...
+\end{verbatim}
+\subsubsection{Problem 1: Doom Emacs Revert to Vanilla Emacs}
+\label{sec:orgf07a9d9}
+When executing command ``emacs -nw'' or ``emacs'', sometimes system is creating directory ``\textasciitilde{}/.emacs.d/*'' unintentionally by user.
+The ``\textasciitilde{}/.emacs.d'' directory was used by older version of Emacs to save its configuration, but the latest vanilla Emacs and Doom Emacs is using XDG environment variable that put the configuration of application inside ``\textasciitilde{}/.config/emacs'' directory.
+
+\textbf{Solution} : run command to create symbolic link with command below!
+\begin{verbatim}
+ln -s ~/.config/emacs ~/.emacs.d
+\end{verbatim}
+The system won't replace existing ``\textasciitilde{}/.emacs.d'' symlink, but will use the symlink which will trace back to ``\textasciitilde{}/.config/emacs'' and use the configuration files inside.
+\subsubsection{Problem 2: Doom Emacs custom configuration has no effect}
+\label{sec:org2ea60e8}
+The problem of automatically directory creation of ``\textasciitilde{}/.emacs.d/*'' also happen for ``\textasciitilde{}/.doom.d/*''. This will hinder Doom manual costumization.
+
+\textbf{Solution} : run command to create symbolic link with command below!
+\begin{verbatim}
+ln -s ~/.config/doom ~/.doom.d
+\end{verbatim}
+\end{document}

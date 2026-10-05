@@ -1,0 +1,90 @@
+Aji Widhi
+
+
+Table of Contents
+_________________
+
+1. Cheatsheet Notes
+.. 1. Glossary
+.. 2. Action & Keybindings
+
+
+1 Cheatsheet Notes
+==================
+
+1.1 Glossary
+~~~~~~~~~~~~
+
+  + Super = Windows button
+  + PrtSc = Print screen button
+
+
+1.2 Action & Keybindings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+  ------------------------------------------------------------------
+   #  *System*                                 :  *Keybinding*      
+  ------------------------------------------------------------------
+      _Menu_                                                        
+   +  app & search                             :  Super+d           
+   +  show Sway system menu                    :  Ctrl+Alt+Delete   
+   +  cheatsheet                               :  Ctrl+/            
+   +  close Sway menu bar                      :  Ctrl+Alt+Esc      
+   +  show/hide Sway bar                       :  Super+Shift+b     
+  ------------------------------------------------------------------
+      _Window_                                                      
+   +  switch left                              :  Super+h           
+   +  switch right                             :  Super+l           
+   +  switch down                              :  Super+j           
+   +  switch up                                :  Super+k           
+   +  move left                                :  Super+Shift+h     
+   +  move right                               :  Super+Shift+l     
+   +  move down                                :  Super+Shift+j     
+   +  move up                                  :  Super+Shift+k     
+   +  close active window                      :  Super+Shift+q     
+                                               :  Alt+F4            
+   +  Toggle tiling or floating mode           :  Super+Shift+space 
+   +  Toggle fullscreen                        :  Super+f           
+                                               :  F11               
+  ------------------------------------------------------------------
+      _Floating Mode_                                               
+   +  slide left a step                        :  Super+Shift+h     
+   +  slide right a step                       :  Super+Shift+l     
+   +  slide down a step                        :  Super+Shift+j     
+   +  slide up a step                          :  Super+Shift+k     
+  ------------------------------------------------------------------
+      _Scratchpad_                                                  
+   +  move active window to                    :  Super+Shift+m     
+      scratchpad                                                    
+   +  cycle an app from                        :  Super+m           
+      scratchpad                                                    
+  ------------------------------------------------------------------
+      _Workspace_                                                   
+   +  switch to workspace 1                    :  Super+1           
+   +  switch to workspace 2                    :  Super+2           
+   +  move to workspace 1                      :  Super+Shift+1     
+   +  move to workspace 2                      :  Super+Shift+2     
+   +  move to workspace on the left if the     :  Super+Shift+h     
+      window is at the left edge of the                             
+      active workspace                                              
+   +  move to workspace on the right if the    :  Super+Shift+l     
+      window is at the right edge of the                            
+      active workspace                                              
+  ------------------------------------------------------------------
+      _Application_                                                 
+   +  terminal                                 :  Super+Enter       
+   +  file manager                             :  Super+F1          
+   +  firefox web browser                      :  Super+F2          
+   +  task manager                             :  Ctrl+Shift+Esc    
+   +  network manager TUI                      :  Fn+F10            
+   +  network editor GUI (add or remove)       :  Fn+F11            
+  ------------------------------------------------------------------
+      _Print screen_                                                
+   +  fullscreen to "Pictures" directory       :  PrtSc             
+   +  fullscreen to clipboard                  :  Ctrl+PrtSc        
+   +  selected region to "Pictures" directory  :  Shift+PrtSc       
+   +  selected region to clipboard             :  Ctrl+Shift+PrtSc  
+  ------------------------------------------------------------------
+      _Configuration_                                               
+   +  Reload/reapply                           :  Super+Shift+c     
+  ------------------------------------------------------------------

@@ -1,0 +1,65 @@
+# =============================================================================
+# Button Styling
+# =============================================================================
+
+font=FiraCode Nerd Font, JetBrainsMono Nerd Font, Hack Nerd Font, monospace 10
+button-border-size=2
+button-padding=4
+button-margin=2
+button-gap=8
+button-dismiss-gap=12
+
+# =============================================================================
+# Notification Types
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Error
+# Used for errors and critical actions (e.g. $sys_control)
+# -----------------------------------------------------------------------------
+
+[error]
+background=#311b1e
+details-background=#3d2428
+button-background=#45475a
+button-text=#f38ba8
+border=#f38ba8
+
+# -----------------------------------------------------------------------------
+# Warning
+# Used for warnings and potentially disruptive actions (e.g. $sys_shortcut)
+# -----------------------------------------------------------------------------
+
+[warning]
+background=#2a2419
+details-background=#3a3426
+button-background=#45475a
+button-text=#fab387
+border=#fab387
+text=#cdd5f4
+
+# -----------------------------------------------------------------------------
+# Info
+# Used for informational messages and non-critical notifications
+# -----------------------------------------------------------------------------
+
+[info]
+background=#1e2633
+details-background=#273244
+button-background=#45475a
+button-text=#89b4fa
+border=#89b4fa
+text=#cdd6f4
+
+# -----------------------------------------------------------------------------
+# Success
+# Used for successful operations and confirmations
+# -----------------------------------------------------------------------------
+
+[success]
+background=#1e2b26
+details-background=#27382f
+button-background=#45475a
+button-text=#a6e3a1
+border=#a6e3a1
+text=#cdd6f4

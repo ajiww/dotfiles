@@ -118,7 +118,6 @@ window#waybar.empty #window {
 
 #backlight,
 #pulseaudio {
-    min-width: 100px;
     border: 1.5px solid @primary_light;
     box-shadow: inset 0 -3px @primary_light;
 }

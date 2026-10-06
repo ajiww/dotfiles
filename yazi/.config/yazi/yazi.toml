@@ -12,7 +12,7 @@ drawio = [
 
 [open]
 rules = [
-	{ name = '*.drawio', use = 'drawio' },
-	{ name = '*.dio', use = 'drawio' }
+	{ url = '*.drawio', use = 'drawio' },
+	{ url = '*.dio', use = 'drawio' }
 ]
 

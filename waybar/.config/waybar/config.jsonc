@@ -10,17 +10,21 @@
     // Choose the order of the modules
     "modules-left": [
         "custom/launcher",
-        "cpu", "memory", "temperature", "battery",
-        "sway/workspaces", "sway/mode", "sway/scratchpad",
-        "hyprland/workspaces", "hyprland/submap",
         "custom/media",
         //"custom/zotero", "custom/pdf",
-        "custom/yazi", "custom/fileman"
+        "custom/yazi", "custom/fileman",
+        "sway/window", "hyprland/window"
     ],
-    "modules-center": ["sway/window", "hyprland/window"],
+    "modules-center": [
+        "sway/workspaces", "sway/mode", "sway/scratchpad",
+        "hyprland/workspaces", "hyprland/submap"
+    ],
     "modules-right": [
         "sway/language", "hyprland/language", "keyboard-state",
-        "tray", "network", "backlight", "pulseaudio", "clock"],
+        "tray", "network", "backlight", "pulseaudio",
+        "cpu", "memory", "temperature", "battery",
+        "clock"
+    ],
 
     // Modules configuration
     "sway/workspaces": {
@@ -53,7 +57,7 @@
     },
     "hyprland/language": {
         "format": "{} 🌐",
-        "format-en": "English",
+        "format-en": "En",
         "format-ar": "العربية",
         /*** Tooltip only work in Sway but not in Hyprland. */
         "tooltip": true,

@@ -145,7 +145,7 @@ window#waybar.empty #window {
 
 #workspaces button.focused, /* Sway specific */
 #workspaces button.active /* Hyprland specific */ {
-    background-color: @primary_light;
+    background-color: @primary;
     color: @text_main;
     border: 1.5px solid @text_main;
     box-shadow: inset 0 -3px @text_main;

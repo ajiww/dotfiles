@@ -53,17 +53,17 @@
     },
     "hyprland/language": {
         "format": "{} 🌐",
-        "format-en": "EN",
+        "format-en": "English",
         "format-ar": "العربية",
-        "format-ara": "ARA",
-        "format-arabic": "العربية",
         /*** Tooltip only work in Sway but not in Hyprland. */
         "tooltip": true,
         "tooltip-format": "Layout: {} ({long})",
         /*** To detect keyboard name: */
         /*** hyprctl devices -j | jq '.keyboards[].name' */
+        /*** Use this to set keyboard-name manually, but 
+             the downside is the waybar language will not change automatically. ***/
         /*"keyboard-name": "at-translated-set-2-keyboard",*/
-        "keyboard-name": "semico---usb-gaming-keyboard-", 
+        /*"keyboard-name": "semico---usb-gaming-keyboard-",*/
         "on-click": "hyprctl switchxkblayout all next"
     },
     "keyboard-state": {

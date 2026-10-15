@@ -199,13 +199,13 @@ bindsym $win+F11            exec swaymsg '[app_id="nm-connection-editor"] focus'
 #bindsym Cancel             ...
 #bindsym XF86Favorites      ...
 #
-# Screenshot fullscreen to file
+# Screenshot region to clipboard
 bindsym Print               exec grim -g "$(slurp)" - | wl-copy
 # Screenshot fullscreen to clipboard
 bindsym Control+Print       exec grim - | wl-copy
 # Screenshot region to file
 bindsym Shift+Print         exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
-# Screenshot region to clipboard
+# Screenshot fullscreen to file
 bindsym Control+Shift+Print exec grim ~/Pictures/screenshot-$(date +%Y%m%d-%H%M%S).png
 #
 # Keyboard Backlight
